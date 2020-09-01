@@ -27,10 +27,10 @@ void param_list_print(uint32_t mask);
 uint32_t param_maskstr_to_mask(char * str);
 
 param_t * param_list_from_line(char * line);
-param_t * param_list_create_remote(int id, int node, int type, uint32_t mask, int array_size, char * name, int namelen);
-void param_list_destroy(param_t * param);
+//param_t * param_list_create_remote(int id, int node, int type, uint32_t mask, int array_size, char * name, int namelen);
+//void param_list_destroy(param_t * param);
 
-void param_list_download(int node, int timeout);
+//void param_list_download(int node, int timeout);
 
 
 /* From param_list_store_file.c */

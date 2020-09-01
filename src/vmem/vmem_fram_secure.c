@@ -33,7 +33,7 @@ void vmem_fram_secure_init(const vmem_t * vmem)
 
 	/* Check checksum (always kept in top 4 bytes of vmem) */
 	memcpy(&fram_crc, driver->data + vmem->size - sizeof(uint32_t), sizeof(uint32_t));
-	ram_crc = csp_crc32_memory(driver->data, vmem->size - sizeof(uint32_t));
+	ram_crc = csp_crc32_memory_few(driver->data, vmem->size - sizeof(uint32_t));
 	if (fram_crc == ram_crc) {
 		return;
 	}
@@ -59,7 +59,7 @@ int vmem_fram_secure_backup(const vmem_t * vmem)
 	fram_write_data(driver->fram_backup_addr, driver->data, vmem->size - sizeof(uint32_t));
 
 	/* Write checksum (always kept in top 4 bytes of vmem) */
-	uint32_t crc = csp_crc32_memory(driver->data, vmem->size - sizeof(uint32_t));
+	uint32_t crc = csp_crc32_memory_few(driver->data, vmem->size - sizeof(uint32_t));
 	fram_write_data(driver->fram_backup_addr + vmem->size - sizeof(uint32_t), &crc, sizeof(uint32_t));
 
 	fram_lock_upper();
@@ -82,7 +82,7 @@ int vmem_fram_secure_restore(const vmem_t * vmem)
 
 	/* Check checksum (always kept in top 4 bytes of vmem) */
 	memcpy(&fram_crc, driver->data + vmem->size - sizeof(uint32_t), sizeof(uint32_t));
-	ram_crc = csp_crc32_memory(driver->data, vmem->size - sizeof(uint32_t));
+	ram_crc = csp_crc32_memory_few(driver->data, vmem->size - sizeof(uint32_t));
 	if (fram_crc == ram_crc) {
 
 		/* Write entire RAM cache to FRAM backup */
@@ -98,7 +98,7 @@ int vmem_fram_secure_restore(const vmem_t * vmem)
 	/* Reset the entire FRAM memory area */
 	memset(driver->data, 0x00, vmem->size);
 	fram_write_data(driver->fram_primary_addr, driver->data, vmem->size - sizeof(uint32_t));
-	uint32_t crc = csp_crc32_memory(driver->data, vmem->size - sizeof(uint32_t));
+	uint32_t crc = csp_crc32_memory_few(driver->data, vmem->size - sizeof(uint32_t));
 	fram_write_data(driver->fram_primary_addr + vmem->size - sizeof(uint32_t), &crc, sizeof(uint32_t));
 
 	/* Call fallback config */
@@ -121,6 +121,6 @@ void vmem_fram_secure_write(const vmem_t * vmem, uint32_t addr, void * datain, i
 	fram_write_data(driver->fram_primary_addr + addr, datain, len);
 
 	/* Write checksum (always kept in top 4 bytes of vmem) */
-	uint32_t crc = csp_crc32_memory(driver->data, vmem->size - sizeof(uint32_t));
+	uint32_t crc = csp_crc32_memory_few(driver->data, vmem->size - sizeof(uint32_t));
 	fram_write_data(driver->fram_primary_addr + vmem->size - sizeof(uint32_t), &crc, sizeof(uint32_t));
 }

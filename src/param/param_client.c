@@ -6,7 +6,6 @@
  */
 
 #include <stdio.h>
-#include <malloc.h>
 #include <inttypes.h>
 #include <param/param.h>
 #include <csp/csp.h>

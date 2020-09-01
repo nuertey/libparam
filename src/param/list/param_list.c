@@ -6,7 +6,6 @@
  */
 
 #include <stdio.h>
-#include <malloc.h>
 
 #include <csp/csp.h>
 #include <csp/arch/csp_malloc.h>
@@ -168,10 +167,10 @@ void param_list_print(uint32_t mask) {
 	}
 }
 
-void param_list_download(int node, int timeout) {
+//void param_list_download(int node, int timeout) {
 
 	/* Establish RDP connection */
-	csp_conn_t * conn = csp_connect(CSP_PRIO_HIGH, node, PARAM_PORT_LIST, timeout, CSP_O_RDP | CSP_O_CRC32);
+/*	csp_conn_t * conn = csp_connect(CSP_PRIO_HIGH, node, PARAM_PORT_LIST, timeout, CSP_O_RDP | CSP_O_CRC32);
 	if (conn == NULL)
 		return;
 
@@ -200,7 +199,7 @@ void param_list_download(int node, int timeout) {
 		printf("Got param: %s[%d]\n", param->name, param->array_size);
 
 		/* Add to list */
-		if (param_list_add(param) != 0)
+/*		if (param_list_add(param) != 0)
 			param_list_destroy(param);
 
 		csp_buffer_free(packet);
@@ -210,11 +209,15 @@ void param_list_download(int node, int timeout) {
 	printf("Received %u parameters\n", count);
 	csp_close(conn);
 }
+*/
 
+/*
 void param_list_destroy(param_t * param) {
 	free(param);
 }
+*/
 
+/*
 param_t * param_list_create_remote(int id, int node, int type, uint32_t mask, int array_size, char * name, int namelen) {
 
 	if (array_size < 1)
@@ -254,4 +257,4 @@ param_t * param_list_create_remote(int id, int node, int type, uint32_t mask, in
 	return param;
 
 }
-
+*/

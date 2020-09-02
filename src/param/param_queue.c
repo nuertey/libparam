@@ -74,7 +74,7 @@ static int param_queue_print_callback(void * ctx, param_queue_t *queue, param_t 
 }
 
 static int param_queue_print_local_callback(void * ctx, param_queue_t *queue, param_t *param, int offset, void *reader) {
-	param_print(param, -1, NULL, 0, 0);
+	//param_print(param, -1, NULL, 0, 0);
 	mpack_discard(reader);
 	return 0;
 }

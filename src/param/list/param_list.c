@@ -157,6 +157,7 @@ param_t * param_list_find_name(int node, char * name)
 	return found;
 }
 
+/*
 void param_list_print(uint32_t mask) {
 	param_t * param;
 	param_list_iterator i = {};
@@ -166,6 +167,7 @@ void param_list_print(uint32_t mask) {
 		}
 	}
 }
+*/
 
 //void param_list_download(int node, int timeout) {
 

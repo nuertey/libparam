@@ -1,6 +1,7 @@
-#include <string.h>
+
 #include <param/param.h>
 #include <libparam.h>
+#include <mpack/mpack.h>
 
 #include <csp/csp.h>
 #include <csp/csp_endian.h>
@@ -151,7 +152,7 @@ void param_set(param_t * param, unsigned int offset, void * value) {
 	PARAM_SET(PARAM_TYPE_FLOAT, float, float)
 	PARAM_SET(PARAM_TYPE_DOUBLE, double, double)
 	case PARAM_TYPE_STRING:
-		param_set_data(param, value, strlen(value) + 1);
+		param_set_data(param, value, mpack_strlen(value) + 1);
 		break;
 	case PARAM_TYPE_DATA:
 		param_set_data(param, value, param->array_size);

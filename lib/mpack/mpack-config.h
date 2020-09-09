@@ -52,9 +52,7 @@
  *
  * Enables compilation of the dynamic Node API.
  */
-#ifndef MPACK_NODE
-#define MPACK_NODE 0
-#endif
+#undef MPACK_NODE
 
 /**
  * @def MPACK_WRITER
@@ -81,9 +79,7 @@
  * Enables the use of C stdlib. This allows the library to use malloc
  * for debugging and in allocation helpers.
  */
-#ifndef MPACK_STDLIB
-#define MPACK_STDLIB 1
-#endif
+#undef MPACK_STDLIB
 
 /**
  * @def MPACK_STDIO
@@ -91,9 +87,7 @@
  * Enables the use of C stdio. This adds helpers for easily
  * reading/writing C files and makes debugging easier.
  */
-#ifndef MPACK_STDIO
-#define MPACK_STDIO 0
-#endif
+#undef MPACK_STDIO
 
 /**
  * @}
@@ -168,9 +162,7 @@
  * files. Your entire project must be compiled with the same value of
  * @ref MPACK_DEBUG. (This is why @c NDEBUG is not used.)
  */
-#if !defined(MPACK_DEBUG) && (defined(DEBUG) || defined(_DEBUG))
-#define MPACK_DEBUG 0
-#endif
+#undef MPACK_DEBUG
 
 /**
  * @def MPACK_STRINGS
@@ -183,9 +175,7 @@
  *
  * This is on by default if it is not defined.
  */
-#if !defined(MPACK_STRINGS)
-#define MPACK_STRINGS 0
-#endif
+#undef MPACK_STRINGS
 
 /**
  * Set this to 1 to implement a custom mpack_assert_fail() function. This

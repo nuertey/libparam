@@ -81,26 +81,16 @@
 #ifndef MPACK_EXPECT
 #define MPACK_EXPECT 0
 #endif
-#ifndef MPACK_NODE
-#define MPACK_NODE 0
-#endif
+#undef MPACK_NODE
 #ifndef MPACK_WRITER
 #define MPACK_WRITER 0
 #endif
 
-#ifndef MPACK_STDLIB
-#define MPACK_STDLIB 0
-#endif
-#ifndef MPACK_STDIO
-#define MPACK_STDIO 0
-#endif
+#undef MPACK_STDLIB
+#undef MPACK_STDIO
 
-#ifndef MPACK_DEBUG
-#define MPACK_DEBUG 0
-#endif
-#ifndef MPACK_STRINGS
-#define MPACK_STRINGS 1 /* default on unless explicitly disabled */
-#endif
+#undef MPACK_DEBUG
+#undef MPACK_STRINGS
 #ifndef MPACK_CUSTOM_ASSERT
 #define MPACK_CUSTOM_ASSERT 0
 #endif
@@ -163,16 +153,6 @@
 #undef MPACK_MALLOC
 #undef MPACK_FREE
 #undef MPACK_REALLOC
-
-#if MPACK_STDLIB
-#include <string.h>
-#include <stdlib.h>
-#endif
-
-#if MPACK_STDIO
-#include <stdio.h>
-#include <errno.h>
-#endif
 
 
 

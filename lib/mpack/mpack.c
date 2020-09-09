@@ -47,6 +47,12 @@
 /* #include "mpack-platform.h" */
 /* #include "mpack.h" */
 
+#undef MPACK_STDIO
+#undef MPACK_STDLIB
+#undef MPACK_DEBUG
+#undef MPACK_MALLOC
+#undef MPACK_FREE
+#undef MPACK_REALLOC
 
 #if MPACK_DEBUG && MPACK_STDIO
 #include <stdarg.h>
@@ -866,7 +872,7 @@ void mpack_writer_init_growable(mpack_writer_t* writer, char** target_data, size
 }
 #endif
 
-#if MPACK_STDIO
+#if 0
 static void mpack_file_writer_flush(mpack_writer_t* writer, const char* buffer, size_t count) {
     FILE* file = (FILE*)writer->context;
     size_t written = fwrite((const void*)buffer, 1, count, file);
@@ -1715,7 +1721,7 @@ void mpack_reader_set_skip(mpack_reader_t* reader, mpack_reader_skip_t skip) {
     #endif
 }
 
-#if MPACK_STDIO
+#if 0
 static size_t mpack_file_reader_fill(mpack_reader_t* reader, char* buffer, size_t count) {
     return fread((void*)buffer, 1, count, (FILE*)reader->context);
 }
@@ -2696,7 +2702,7 @@ void mpack_done_type(mpack_reader_t* reader, mpack_type_t type) {
 }
 #endif
 
-#if MPACK_STDIO
+#if 0
 void mpack_print_element(mpack_reader_t* reader, size_t depth, FILE* file) {
     mpack_tag_t val = mpack_read_tag(reader);
     if (mpack_reader_error(reader) != mpack_ok)
@@ -4324,7 +4330,7 @@ void mpack_tree_init_error(mpack_tree_t* tree, mpack_error_t error) {
     mpack_log("initializing tree error state %i\n", (int)error);
 }
 
-#if MPACK_STDIO
+#if 0
 typedef struct mpack_file_tree_t {
     char* data;
     size_t size;
@@ -4503,7 +4509,7 @@ mpack_tag_t mpack_node_tag(mpack_node_t node) {
     return tag;
 }
 
-#if MPACK_STDIO
+#if 0
 static void mpack_node_print_element(mpack_node_t node, size_t depth, FILE* file) {
     mpack_node_data_t* data = node.data;
     switch (data->type) {

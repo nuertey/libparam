@@ -157,6 +157,13 @@
 #include <inttypes.h>
 #include <limits.h>
 
+#undef MPACK_STDIO
+#undef MPACK_STDLIB
+#undef MPACK_DEBUG
+#undef MPACK_MALLOC
+#undef MPACK_FREE
+#undef MPACK_REALLOC
+
 #if MPACK_STDLIB
 #include <string.h>
 #include <stdlib.h>

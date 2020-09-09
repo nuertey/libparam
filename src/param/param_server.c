@@ -5,7 +5,6 @@
  *      Author: johan
  */
 
-#include <stdio.h>
 #include <csp/csp.h>
 #include <csp/arch/csp_thread.h>
 #include <csp/arch/csp_time.h>
@@ -52,7 +51,6 @@ static int __add(struct param_serve_context *ctx, param_t * param, int offset, v
 
 		/* Retry on fresh buffer */
 		if (param_queue_add(&ctx->q_response, param, offset, NULL) != 0) {
-			printf("warn: param too big for mtu\n");
 		}
 	}
 	return  0;
@@ -135,7 +133,6 @@ void param_serve(csp_packet_t * packet) {
 			break;
 
 		default:
-			printf("Unknown parameter request\n");
 			csp_buffer_free(packet);
 			break;
 	}

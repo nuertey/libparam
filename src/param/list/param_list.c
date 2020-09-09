@@ -5,8 +5,6 @@
  *      Author: johan
  */
 
-#include <stdio.h>
-
 #include <csp/csp.h>
 #include <csp/arch/csp_malloc.h>
 #include <csp/csp_endian.h>
@@ -157,106 +155,4 @@ param_t * param_list_find_name(int node, char * name)
 	return found;
 }
 
-/*
-void param_list_print(uint32_t mask) {
-	param_t * param;
-	param_list_iterator i = {};
-	while ((param = param_list_iterate(&i)) != NULL) {
-		if ((param->mask & mask) || (mask == 0xFFFFFFFF)) {
-			param_print(param, -1, NULL, 0, 2);
-		}
-	}
-}
-*/
 
-//void param_list_download(int node, int timeout) {
-
-	/* Establish RDP connection */
-/*	csp_conn_t * conn = csp_connect(CSP_PRIO_HIGH, node, PARAM_PORT_LIST, timeout, CSP_O_RDP | CSP_O_CRC32);
-	if (conn == NULL)
-		return;
-
-	int count = 0;
-	csp_packet_t * packet;
-	while((packet = csp_read(conn, timeout)) != NULL) {
-
-		//csp_hex_dump("Response", packet->data, packet->length);
-		param_transfer_t * new_param = (void *) packet->data;
-
-		int strlen = packet->length - offsetof(param_transfer_t, name);
-		int node = csp_ntoh16(new_param->id) >> 11;
-		int id = csp_ntoh16(new_param->id) & 0x7FF;
-		int type = new_param->type;
-		int size = new_param->size;
-		int mask = csp_ntoh32(new_param->mask);
-		if (size == 255)
-			size = 1;
-
-		param_t * param = param_list_create_remote(id, node, type, mask, size, new_param->name, strlen);
-		if (param == NULL) {
-			csp_buffer_free(packet);
-			break;
-		}
-
-		printf("Got param: %s[%d]\n", param->name, param->array_size);
-
-		/* Add to list */
-/*		if (param_list_add(param) != 0)
-			param_list_destroy(param);
-
-		csp_buffer_free(packet);
-		count++;
-	}
-
-	printf("Received %u parameters\n", count);
-	csp_close(conn);
-}
-*/
-
-/*
-void param_list_destroy(param_t * param) {
-	free(param);
-}
-*/
-
-/*
-param_t * param_list_create_remote(int id, int node, int type, uint32_t mask, int array_size, char * name, int namelen) {
-
-	if (array_size < 1)
-		array_size = 1;
-
-	struct param_heap_s {
-		param_t param;
-		union {
-			uint64_t alignme;
-			uint8_t buffer[param_typesize(type) * array_size];
-		};
-		char name[namelen+1];
-	} *param_heap = calloc(sizeof(struct param_heap_s), 1);
-
-	param_t * param = &param_heap->param;
-	if (param == NULL) {
-		return NULL;
-	}
-
-	param->vmem = NULL;
-	param->name = param_heap->name;
-	param->addr = param_heap->buffer;
-	param->unit = NULL;
-
-	param->id = id;
-	param->node = node;
-	param->type = type;
-	param->mask = mask;
-	param->array_size = array_size;
-	param->array_step = param_typesize(type);
-
-	strncpy(param->name, name, namelen);
-	param->name[namelen] = '\0';
-
-	//printf("Created %s\n", param->name);
-
-	return param;
-
-}
-*/

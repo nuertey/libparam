@@ -61,20 +61,11 @@ int param_queue_apply(param_queue_t *queue) {
 }
 
 static int param_queue_print_callback(void * ctx, param_queue_t *queue, param_t *param, int offset, void *reader) {
-	printf("  %s:%u", param->name, param->node);
-	if (offset >= 0)
-		printf("[%u]", offset);
-	printf("\t");
-	if (queue->type == PARAM_QUEUE_TYPE_SET) {
-		printf(" => ");
-		//mpack_print_element((mpack_reader_t *) reader, 2, stdout);
-	}
-	printf("\n");
+
 	return 0;
 }
 
 static int param_queue_print_local_callback(void * ctx, param_queue_t *queue, param_t *param, int offset, void *reader) {
-	//param_print(param, -1, NULL, 0, 0);
 	mpack_discard(reader);
 	return 0;
 }

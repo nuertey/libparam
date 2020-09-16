@@ -11,16 +11,16 @@
 #include <param/param.h>
 
 typedef enum {
-	PARAM_QUEUE_TYPE_GET,
-	PARAM_QUEUE_TYPE_SET,
+    PARAM_QUEUE_TYPE_GET,
+    PARAM_QUEUE_TYPE_SET,
 } param_queue_type_e;
 
 struct param_queue_s {
-	char *buffer;
-	int buffer_internal;
-	int buffer_size;
-	param_queue_type_e type;
-	int used;
+    char *buffer;
+    int buffer_internal;
+    int buffer_size;
+    param_queue_type_e type;
+    int used;
 };
 
 typedef struct param_queue_s param_queue_t;
@@ -29,6 +29,7 @@ void param_queue_init(param_queue_t * queue, void * buffer, int buffer_size, int
 
 int param_queue_add(param_queue_t *queue, param_t *param, int offset, void *value);
 int param_queue_apply(param_queue_t *queue);
+int param_queue_apply_bms(param_t *param, param_queue_t *queue);
 
 void param_queue_print(param_queue_t *queue);
 void param_queue_print_local(param_queue_t *queue);

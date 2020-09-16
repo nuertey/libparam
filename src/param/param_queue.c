@@ -57,8 +57,31 @@ int param_queue_foreach(param_queue_t *queue, param_queue_callback_f callback, v
 
 }
 
+int param_queue_foreach_bms(param_t *param, param_queue_t *queue, param_queue_callback_f callback, void * context) {
+
+    mpack_reader_t reader;
+    mpack_reader_init_data(&reader, queue->buffer, queue->used);
+    while(reader.left > 0) {
+        int id, node, offset = -1;
+        param_deserialize_id(&reader, &id, &node, &offset);
+        //param_t * param = param_list_find_id(node, id);
+        //extern param_t tlm_int_temp;
+        //param_t * param = &tlm_int_temp; 
+        if (param) {
+            callback(context, queue, param, offset, &reader);
+        }
+    }
+
+    return mpack_ok;
+
+}
+
 int param_queue_apply(param_queue_t *queue) {
     return param_queue_foreach(queue, (param_queue_callback_f) param_deserialize_from_mpack_to_param, NULL);
+}
+
+int param_queue_apply_bms(param_t *param, param_queue_t *queue) {
+    return param_queue_foreach_bms(param, queue, (param_queue_callback_f) param_deserialize_from_mpack_to_param, NULL);
 }
 
 static int param_queue_print_callback(void * ctx, param_queue_t *queue, param_t *param, int offset, void *reader) {

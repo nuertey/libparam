@@ -17,12 +17,23 @@
 #include <param/param_queue.h>
 
 typedef void (*param_transaction_callback_f)(csp_packet_t *response, int verbose);
+typedef void (*param_transaction_callback_f_bms)(param_t *param, csp_packet_t *response, int verbose);
 
 static void param_transaction_callback_pull(csp_packet_t *response, int verbose) {
     //csp_hex_dump("pull response", response->data, response->length);
     param_queue_t queue;
     param_queue_init(&queue, &response->data[2], response->length - 2, response->length - 2, PARAM_QUEUE_TYPE_SET);
     param_queue_apply(&queue);
+    //if (verbose)
+    //  param_queue_print_local(&queue);
+    csp_buffer_free(response);
+}
+
+static void param_transaction_callback_pull_bms(param_t *param, csp_packet_t *response, int verbose) {
+    //csp_hex_dump("pull response", response->data, response->length);
+    param_queue_t queue;
+    param_queue_init(&queue, &response->data[2], response->length - 2, response->length - 2, PARAM_QUEUE_TYPE_SET);
+    param_queue_apply_bms(param, &queue);
     //if (verbose)
     //  param_queue_print_local(&queue);
     csp_buffer_free(response);
@@ -73,6 +84,52 @@ static int param_transaction(csp_packet_t *packet, int host, int timeout, param_
     return result;
 }
 
+static int param_transaction_bms(param_t *param, csp_packet_t *packet, int host, int timeout, param_transaction_callback_f_bms callback, int verbose) {
+
+    //csp_hex_dump("transaction", packet->data, packet->length);
+
+    csp_conn_t * conn = csp_connect(CSP_PRIO_HIGH, host, PARAM_PORT_SERVER, 0, CSP_O_CRC32);
+    if (conn == NULL) {
+        csp_buffer_free(packet);
+        return -1;
+    }
+
+    if (!csp_send(conn, packet, 0)) {
+        csp_close(conn);
+        csp_buffer_free(packet);
+        return -1;
+    }
+
+    if (timeout == -1) {
+        csp_close(conn);
+        return -1;
+    }
+
+    int result = -1;
+    while((packet = csp_read(conn, timeout)) != NULL) {
+
+        int end = (packet->data[1] == PARAM_FLAG_END);
+
+        //csp_hex_dump("response", packet->data, packet->length);
+
+        if (callback) {
+            callback(param, packet, verbose);
+        } else {
+            csp_buffer_free(packet);
+        }
+
+        if (end) {
+            result = 0;
+            break;
+        }
+
+    }
+
+    csp_close(conn);
+    return result;
+}
+
+
 int param_pull_all(int verbose, int host, uint32_t mask, int timeout) {
 
     csp_packet_t *packet = csp_buffer_get(PARAM_SERVER_MTU);
@@ -117,7 +174,7 @@ int param_pull_single(param_t *param, int offset, int verbose, int host, int tim
     param_queue_add(&queue, param, offset, NULL);
 
     packet->length = queue.used + 2;
-    return param_transaction(packet, host, timeout, param_transaction_callback_pull, verbose);
+    return param_transaction_bms(param, packet, host, timeout, param_transaction_callback_pull_bms, verbose);
 }
 
 

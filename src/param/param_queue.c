@@ -46,8 +46,8 @@ int param_queue_foreach(param_queue_t *queue, param_queue_callback_f callback, v
     while(reader.left > 0) {
         int id, node, offset = -1;
         param_deserialize_id(&reader, &id, &node, &offset);
-        //param_t * param = param_list_find_id(node, id);
-        param_t * param = &tlm_int_temp;
+        param_t * param = param_list_find_id(node, id);
+        //param_t * param = &tlm_int_temp;
         if (param) {
             callback(context, queue, param, offset, &reader);
         }
